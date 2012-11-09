@@ -19,7 +19,8 @@
 #pragma mark - Getters and Setters
 
 @property (nonatomic, assign) NSInteger rating;
-
+@property (nonatomic, readwrite) NSUInteger fontSize;
+@property (nonatomic, readwrite) NSUInteger starWidthAndHeight;
 
 /**************************************************************************************************/
 #pragma mark - Birth & Death
