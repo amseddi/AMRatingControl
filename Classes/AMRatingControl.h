@@ -23,6 +23,14 @@
 @property (nonatomic, readwrite) NSUInteger starWidthAndHeight;
 
 /**************************************************************************************************/
+#pragma mark - Additional Configuration
+
+/**
+ * Rating control can change value from touch. Default is YES.
+ */
+@property BOOL isEditable;
+
+/**************************************************************************************************/
 #pragma mark - Birth & Death
 
 /**

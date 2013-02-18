@@ -189,6 +189,8 @@ static const NSString *kDefaultSolidChar = @"★";
         _maxRating = maxRating;
         _fontSize = kFontSize;
         _starWidthAndHeight = kStarWidthAndHeight;
+        
+        _isEditable = YES;
 	}
 	
 	return self;
@@ -196,6 +198,10 @@ static const NSString *kDefaultSolidChar = @"★";
 
 - (void)handleTouch:(UITouch *)touch
 {
+    if (!self.isEditable) {
+        return;
+    }
+    
     CGFloat width = self.frame.size.width;
 	CGRect section = CGRectMake(0, 0, (width / _maxRating), self.frame.size.height);
 	
