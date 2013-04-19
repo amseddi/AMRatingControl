@@ -23,11 +23,12 @@
     // Create a simple instance, initing with :
     // - a CGPoint (the position in your view from which it will be drawn)
     // - and max rating
-	AMRatingControl *simpleRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(110, 50)
+	AMRatingControl *simpleRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(90, 50)
                                                                   andMaxRating:5];
     
     // Customize the current rating if needed
     [simpleRatingControl setRating:3];
+    [simpleRatingControl setStarSpacing:10];
     
     // Listen to control events
 	[simpleRatingControl addTarget:self action:@selector(updateRating:) forControlEvents:UIControlEventEditingChanged];

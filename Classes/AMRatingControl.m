@@ -10,6 +10,7 @@
 // Constants :
 static const CGFloat kFontSize = 20;
 static const NSInteger kStarWidthAndHeight = 20;
+static const NSInteger kStarSpacing = 0;
 
 static const NSString *kDefaultEmptyChar = @"☆";
 static const NSString *kDefaultSolidChar = @"★";
@@ -24,7 +25,7 @@ static const NSString *kDefaultSolidChar = @"★";
             solidColor:(UIColor *)solidColor
           andMaxRating:(NSInteger)maxRating;
 
-
+- (void)adjustFrame;
 - (void)handleTouch:(UITouch *)touch;
 
 @end
@@ -37,8 +38,9 @@ static const NSString *kDefaultSolidChar = @"★";
 #pragma mark - Getters & Setters
 
 @synthesize rating = _rating;
-@synthesize fontSize = _fontSize;
+@synthesize starFontSize = _starFontSize;
 @synthesize starWidthAndHeight = _starWidthAndHeight;
+@synthesize starSpacing = _starSpacing;
 
 - (void)setRating:(NSInteger)rating
 {
@@ -50,8 +52,15 @@ static const NSString *kDefaultSolidChar = @"★";
 - (void)setStarWidthAndHeight:(NSUInteger)starWidthAndHeight
 {
     _starWidthAndHeight = starWidthAndHeight;
-    CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _maxRating *starWidthAndHeight, starWidthAndHeight);
-    self.frame = newFrame;
+    [self adjustFrame];
+    [self setNeedsDisplay];
+}
+
+- (void)setStarSpacing:(NSUInteger)starSpacing
+{
+    _starSpacing = starSpacing;
+    [self adjustFrame];
+    [self setNeedsDisplay];
 }
 
 /**************************************************************************************************/
@@ -118,10 +127,10 @@ static const NSString *kDefaultSolidChar = @"★";
 		else
         {
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), _solidColor.CGColor);
-            [kDefaultSolidChar drawAtPoint:currPoint withFont:[UIFont boldSystemFontOfSize:_fontSize]];
+            [kDefaultSolidChar drawAtPoint:currPoint withFont:[UIFont boldSystemFontOfSize:_starFontSize]];
         }
 			
-		currPoint.x += _starWidthAndHeight;
+		currPoint.x += (_starWidthAndHeight + _starSpacing);
 	}
 	
 	NSInteger remaining = _maxRating - _rating;
@@ -135,9 +144,9 @@ static const NSString *kDefaultSolidChar = @"★";
 		else
         {
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), _emptyColor.CGColor);
-			[kDefaultEmptyChar drawAtPoint:currPoint withFont:[UIFont boldSystemFontOfSize:_fontSize]];
+			[kDefaultEmptyChar drawAtPoint:currPoint withFont:[UIFont boldSystemFontOfSize:_starFontSize]];
         }
-		currPoint.x += _starWidthAndHeight;
+		currPoint.x += (_starWidthAndHeight + _starSpacing);
 	}
 }
 
@@ -187,17 +196,24 @@ static const NSString *kDefaultSolidChar = @"★";
         _emptyColor = emptyColor;
         _solidColor = solidColor;
         _maxRating = maxRating;
-        _fontSize = kFontSize;
+        _starFontSize = kFontSize;
         _starWidthAndHeight = kStarWidthAndHeight;
+        _starSpacing = kStarSpacing;
 	}
 	
 	return self;
 }
 
+- (void)adjustFrame
+{
+    CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _maxRating * _starWidthAndHeight + (_maxRating - 1) * _starSpacing, _starWidthAndHeight);
+    self.frame = newFrame;
+}
+
 - (void)handleTouch:(UITouch *)touch
 {
     CGFloat width = self.frame.size.width;
-	CGRect section = CGRectMake(0, 0, (width / _maxRating), self.frame.size.height);
+	CGRect section = CGRectMake(0, 0, _starWidthAndHeight, self.frame.size.height);
 	
 	CGPoint touchLocation = [touch locationInView:self];
 	
@@ -221,7 +237,7 @@ static const NSString *kDefaultSolidChar = @"★";
 	{
 		for (int i = 0 ; i < _maxRating ; i++)
 		{
-			if ((touchLocation.x > section.origin.x) && (touchLocation.x < (section.origin.x + section.size.width)))
+			if ((touchLocation.x > section.origin.x) && (touchLocation.x < (section.origin.x + _starWidthAndHeight)))
 			{
 				if (_rating != (i+1))
 				{
@@ -230,7 +246,7 @@ static const NSString *kDefaultSolidChar = @"★";
 				}
 				break;
 			}
-			section.origin.x += section.size.width;
+			section.origin.x += (_starWidthAndHeight + _starSpacing);
 		}
 	}
 	[self setNeedsDisplay];
