@@ -6,6 +6,9 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^UpdateRatingBlock)(NSUInteger rating);
+typedef void (^UpdateEndRatingBlock)(NSUInteger rating);
+
 
 @interface AMRatingControl : UIControl
 {
@@ -22,6 +25,8 @@
 @property (nonatomic, readwrite) NSUInteger starFontSize;
 @property (nonatomic, readwrite) NSUInteger starWidthAndHeight;
 @property (nonatomic, readwrite) NSUInteger starSpacing;
+@property (nonatomic, copy) UpdateRatingBlock updateRatingBlock;
+@property (nonatomic, copy) UpdateEndRatingBlock updateEndRatingBlock;
 
 /**************************************************************************************************/
 #pragma mark - Birth & Death

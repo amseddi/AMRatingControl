@@ -31,8 +31,13 @@
     [simpleRatingControl setStarSpacing:10];
     
     // Listen to control events
-	[simpleRatingControl addTarget:self action:@selector(updateRating:) forControlEvents:UIControlEventEditingChanged];
-    [simpleRatingControl addTarget:self action:@selector(updateEndRating:) forControlEvents:UIControlEventEditingDidEnd];
+	simpleRatingControl.updateRatingBlock = ^(NSUInteger rating) {
+        [label setText:[NSString stringWithFormat:@"%d", rating]];
+    };
+    
+    simpleRatingControl.updateEndRatingBlock = ^(NSUInteger rating) {
+        [endLabel setText:[NSString stringWithFormat:@"%d", rating]];
+    };
 
     
     // Create an instance with images, initing with :
@@ -63,22 +68,6 @@
 	[self.view addSubview:simpleRatingControl];
     [self.view addSubview:imagesRatingControl];
     [self.view addSubview:coloredRatingControl];
-}
-
-
-/**************************************************************************************************/
-#pragma mark - Private Methods
-
-- (void)updateRating:(id)sender
-{
-	NSLog(@"Rating: %d", [(AMRatingControl *)sender rating]);
-	[label setText:[NSString stringWithFormat:@"%d", [(AMRatingControl *)sender rating]]];
-}
-
-- (void)updateEndRating:(id)sender
-{
-    NSLog(@"End Rating: %d", [(AMRatingControl *)sender rating]);
-	[endLabel setText:[NSString stringWithFormat:@"%d", [(AMRatingControl *)sender rating]]];
 }
 
 

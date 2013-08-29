@@ -168,7 +168,9 @@ static const NSString *kDefaultSolidChar = @"★";
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    [self sendActionsForControlEvents:UIControlEventEditingDidEnd];
+    if(self.updateEndRatingBlock) {
+        self.updateEndRatingBlock(_rating);
+    }
 }
 
 
@@ -222,7 +224,9 @@ static const NSString *kDefaultSolidChar = @"★";
 		if (_rating != 0)
 		{
 			_rating = 0;
-			[self sendActionsForControlEvents:UIControlEventEditingChanged];
+            if(self.updateRatingBlock) {
+                self.updateRatingBlock(_rating);
+            }
 		}
 	}
 	else if (touchLocation.x > width)
@@ -230,7 +234,9 @@ static const NSString *kDefaultSolidChar = @"★";
 		if (_rating != _maxRating)
 		{
 			_rating = _maxRating;
-			[self sendActionsForControlEvents:UIControlEventEditingChanged];
+            if(self.updateRatingBlock) {
+                self.updateRatingBlock(_rating);
+            }
 		}
 	}
 	else
@@ -242,7 +248,9 @@ static const NSString *kDefaultSolidChar = @"★";
 				if (_rating != (i+1))
 				{
 					_rating = i+1;
-					[self sendActionsForControlEvents:UIControlEventEditingChanged];
+                    if(self.updateRatingBlock) {
+                        self.updateRatingBlock(_rating);
+                    }
 				}
 				break;
 			}
