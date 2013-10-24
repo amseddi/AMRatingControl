@@ -32,15 +32,25 @@ static const NSString *kDefaultSolidChar = @"★";
 
 
 @implementation AMRatingControl
-
+{
+    BOOL _respondsToTranslatesAutoresizingMaskIntoConstraints;
+    UIImage *_emptyImage, *_solidImage;
+    UIColor *_emptyColor, *_solidColor;
+    NSInteger _maxRating;
+}
 
 /**************************************************************************************************/
 #pragma mark - Getters & Setters
 
-@synthesize rating = _rating;
-@synthesize starFontSize = _starFontSize;
-@synthesize starWidthAndHeight = _starWidthAndHeight;
-@synthesize starSpacing = _starSpacing;
+- (void)setMaxRating:(NSInteger)maxRating
+{
+    _maxRating = maxRating;
+    if (_rating > maxRating) {
+        _rating = maxRating;
+    }
+    [self adjustFrame];
+    [self setNeedsDisplay];
+}
 
 - (void)setRating:(NSInteger)rating
 {
@@ -110,6 +120,15 @@ static const NSString *kDefaultSolidChar = @"★";
     _solidColor = nil;
 }
 
+/**************************************************************************************************/
+#pragma mark - Auto Layout
+
+- (CGSize)intrinsicContentSize
+{
+    return CGSizeMake(_maxRating * _starWidthAndHeight + (_maxRating - 1) * _starSpacing,
+                      _starWidthAndHeight);
+}
+
 
 /**************************************************************************************************/
 #pragma mark - View Lifecycle
@@ -129,7 +148,7 @@ static const NSString *kDefaultSolidChar = @"★";
             CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), _solidColor.CGColor);
             [kDefaultSolidChar drawAtPoint:currPoint withFont:[UIFont boldSystemFontOfSize:_starFontSize]];
         }
-			
+        
 		currPoint.x += (_starWidthAndHeight + _starSpacing);
 	}
 	
@@ -177,6 +196,42 @@ static const NSString *kDefaultSolidChar = @"★";
 /**************************************************************************************************/
 #pragma mark - Private Methods
 
+- (void)initializeWithEmptyImage:(UIImage *)emptyImageOrNil
+                      solidImage:(UIImage *)solidImageOrNil
+                      emptyColor:(UIColor *)emptyColor
+                      solidColor:(UIColor *)solidColor
+                    andMaxRating:(NSInteger)maxRating
+{
+    _respondsToTranslatesAutoresizingMaskIntoConstraints = [self respondsToSelector:@selector(translatesAutoresizingMaskIntoConstraints)];
+    
+    _rating = 0;
+    self.backgroundColor = [UIColor clearColor];
+    self.opaque = NO;
+    
+    _emptyImage = emptyImageOrNil;
+    _solidImage = solidImageOrNil;
+    _emptyColor = emptyColor;
+    _solidColor = solidColor;
+    _maxRating = maxRating;
+    _starFontSize = kFontSize;
+    _starWidthAndHeight = kStarWidthAndHeight;
+    _starSpacing = kStarSpacing;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    self = [super initWithCoder:decoder];
+    if (self) {
+        [self initializeWithEmptyImage:nil
+                            solidImage:nil
+                            emptyColor:nil
+                            solidColor:nil
+                          andMaxRating:0];
+    }
+    return self;
+}
+
+
 - (id)initWithLocation:(CGPoint)location
             emptyImage:(UIImage *)emptyImageOrNil
             solidImage:(UIImage *)solidImageOrNil
@@ -189,18 +244,11 @@ static const NSString *kDefaultSolidChar = @"★";
                                               (maxRating * kStarWidthAndHeight),
                                               kStarWidthAndHeight)])
 	{
-		_rating = 0;
-		self.backgroundColor = [UIColor clearColor];
-		self.opaque = NO;
-		
-		_emptyImage = emptyImageOrNil;
-		_solidImage = solidImageOrNil;
-        _emptyColor = emptyColor;
-        _solidColor = solidColor;
-        _maxRating = maxRating;
-        _starFontSize = kFontSize;
-        _starWidthAndHeight = kStarWidthAndHeight;
-        _starSpacing = kStarSpacing;
+		[self initializeWithEmptyImage:emptyImageOrNil
+                            solidImage:solidImageOrNil
+                            emptyColor:emptyColor
+                            solidColor:solidColor
+                          andMaxRating:maxRating];
 	}
 	
 	return self;
@@ -208,8 +256,12 @@ static const NSString *kDefaultSolidChar = @"★";
 
 - (void)adjustFrame
 {
-    CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _maxRating * _starWidthAndHeight + (_maxRating - 1) * _starSpacing, _starWidthAndHeight);
-    self.frame = newFrame;
+    if (_respondsToTranslatesAutoresizingMaskIntoConstraints && !self.translatesAutoresizingMaskIntoConstraints) {
+        [self invalidateIntrinsicContentSize];
+    } else {
+        CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _maxRating * _starWidthAndHeight + (_maxRating - 1) * _starSpacing, _starWidthAndHeight);
+        self.frame = newFrame;
+    }
 }
 
 - (void)handleTouch:(UITouch *)touch

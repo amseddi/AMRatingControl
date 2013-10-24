@@ -11,16 +11,12 @@ typedef void (^EditingDidEndBlock)(NSUInteger rating);
 
 
 @interface AMRatingControl : UIControl
-{
-	UIImage *_emptyImage, *_solidImage;
-    UIColor *_emptyColor, *_solidColor;
-    NSInteger _maxRating;
-}
 
 
 /**************************************************************************************************/
 #pragma mark - Getters and Setters
 
+@property (nonatomic, assign) NSInteger maxRating;
 @property (nonatomic, assign) NSInteger rating;
 @property (nonatomic, readwrite) NSUInteger starFontSize;
 @property (nonatomic, readwrite) NSUInteger starWidthAndHeight;
