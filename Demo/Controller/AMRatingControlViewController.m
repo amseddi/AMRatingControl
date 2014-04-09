@@ -4,6 +4,7 @@
 
 @interface AMRatingControlViewController ()
 @property (nonatomic, strong) AMRatingControl *coloredRatingControl;
+@property (nonatomic, strong) AMRatingControl *imagesRatingControl;
 @end
 
 
@@ -45,10 +46,10 @@
 	UIImage *dot, *star;
 	dot = [UIImage imageNamed:@"dot.png"];
 	star = [UIImage imageNamed:@"star.png"];
-	AMRatingControl *imagesRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(110, 250)
-                                                                          emptyImage:dot
-                                                                          solidImage:star
-                                                                        andMaxRating:5];
+	self.imagesRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(110, 250)
+                                                              emptyImage:dot
+                                                              solidImage:star
+                                                            andMaxRating:5];
     
     // Create an instance with custom color, initing with :
     // - a CGPoint (the position in your view from which it will be drawn)
@@ -64,12 +65,13 @@
     
     // Add the control(s) as a subview of your view
 	[self.view addSubview:simpleRatingControl];
-    [self.view addSubview:imagesRatingControl];
+    [self.view addSubview:self.imagesRatingControl];
     [self.view addSubview:self.coloredRatingControl];
 }
 
 #pragma mark - Actions
-- (IBAction)switchColors:(id)sender {
+- (IBAction)switchColors:(id)sender
+{
     if([self.coloredRatingControl.solidColor isEqual:[UIColor redColor]]) {
         self.coloredRatingControl.solidColor = [UIColor blueColor];
         self.coloredRatingControl.emptyColor = [UIColor greenColor];
@@ -80,5 +82,19 @@
     }
 }
 
+- (IBAction)swapImages:(id)sender
+{
+	UIImage *dot = [UIImage imageNamed:@"dot.png"];
+	UIImage *star = [UIImage imageNamed:@"star.png"];
+    
+    if ([self.imagesRatingControl.emptyImage isEqual:dot]) {
+        self.imagesRatingControl.emptyImage = star;
+        self.imagesRatingControl.solidImage = dot;
+    }
+    else {
+        self.imagesRatingControl.emptyImage = dot;
+        self.imagesRatingControl.solidImage = star;
+    }
+}
 
 @end

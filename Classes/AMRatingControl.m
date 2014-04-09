@@ -34,7 +34,6 @@ static const NSString *kDefaultSolidChar = @"★";
 @implementation AMRatingControl
 {
     BOOL _respondsToTranslatesAutoresizingMaskIntoConstraints;
-    UIImage *_emptyImage, *_solidImage;
     NSInteger _maxRating;
 }
 
@@ -84,6 +83,22 @@ static const NSString *kDefaultSolidChar = @"★";
 {
     if(![self.solidColor isEqual:solidColor]) {
         _solidColor = solidColor;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setEmptyImage:(UIImage *)emptyImage
+{
+    if(![self.emptyImage isEqual:emptyImage]) {
+        _emptyImage = emptyImage;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setSolidImage:(UIImage *)solidImage
+{
+    if(![self.solidImage isEqual:solidImage]) {
+        _solidImage = solidImage;
         [self setNeedsDisplay];
     }
 }

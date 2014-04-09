@@ -25,6 +25,8 @@ typedef void (^EditingDidEndBlock)(NSUInteger rating);
 @property (nonatomic, copy) EditingDidEndBlock editingDidEndBlock;
 @property (nonatomic, strong) UIColor *emptyColor;
 @property (nonatomic, strong) UIColor *solidColor;
+@property (nonatomic, strong) UIImage *emptyImage;
+@property (nonatomic, strong) UIImage *solidImage;
 
 /**************************************************************************************************/
 #pragma mark - Birth & Death
