@@ -23,6 +23,8 @@ typedef void (^EditingDidEndBlock)(NSUInteger rating);
 @property (nonatomic, readwrite) NSUInteger starSpacing;
 @property (nonatomic, copy) EditingChangedBlock editingChangedBlock;
 @property (nonatomic, copy) EditingDidEndBlock editingDidEndBlock;
+@property (nonatomic, strong) UIColor *emptyColor;
+@property (nonatomic, strong) UIColor *solidColor;
 
 /**************************************************************************************************/
 #pragma mark - Birth & Death

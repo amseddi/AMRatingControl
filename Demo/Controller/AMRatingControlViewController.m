@@ -2,16 +2,12 @@
 #import "AMRatingControl.h"
 
 
-@interface AMRatingControlViewController (Private)
-
-- (void)updateRating:(id)sender;
-- (void)updateEndRating:(id)sender;
-
+@interface AMRatingControlViewController ()
+@property (nonatomic, strong) AMRatingControl *coloredRatingControl;
 @end
 
 
 @implementation AMRatingControlViewController
-
 
 /**************************************************************************************************/
 #pragma mark - View Lifecycle
@@ -58,10 +54,10 @@
     // - a CGPoint (the position in your view from which it will be drawn)
     // - a custom empty image and solid image if you wish (pass nil if you want to use the default).
     // - and max rating
-	AMRatingControl *coloredRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(110, 370)
-                                                                           emptyColor:[UIColor yellowColor]
-                                                                           solidColor:[UIColor redColor]
-                                                                         andMaxRating:5];
+	self.coloredRatingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(110, 370)
+                                                               emptyColor:[UIColor yellowColor]
+                                                               solidColor:[UIColor redColor]
+                                                             andMaxRating:5];
     
     
     
@@ -69,7 +65,19 @@
     // Add the control(s) as a subview of your view
 	[self.view addSubview:simpleRatingControl];
     [self.view addSubview:imagesRatingControl];
-    [self.view addSubview:coloredRatingControl];
+    [self.view addSubview:self.coloredRatingControl];
+}
+
+#pragma mark - Actions
+- (IBAction)switchColors:(id)sender {
+    if([self.coloredRatingControl.solidColor isEqual:[UIColor redColor]]) {
+        self.coloredRatingControl.solidColor = [UIColor blueColor];
+        self.coloredRatingControl.emptyColor = [UIColor greenColor];
+    }
+    else {
+        self.coloredRatingControl.solidColor = [UIColor redColor];
+        self.coloredRatingControl.emptyColor = [UIColor yellowColor];
+    }
 }
 
 

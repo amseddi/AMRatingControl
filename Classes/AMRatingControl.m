@@ -35,7 +35,6 @@ static const NSString *kDefaultSolidChar = @"★";
 {
     BOOL _respondsToTranslatesAutoresizingMaskIntoConstraints;
     UIImage *_emptyImage, *_solidImage;
-    UIColor *_emptyColor, *_solidColor;
     NSInteger _maxRating;
 }
 
@@ -71,6 +70,22 @@ static const NSString *kDefaultSolidChar = @"★";
     _starSpacing = starSpacing;
     [self adjustFrame];
     [self setNeedsDisplay];
+}
+
+- (void)setEmptyColor:(UIColor *)emptyColor
+{
+    if(![self.emptyColor isEqual:emptyColor]) {
+        _emptyColor = emptyColor;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setSolidColor:(UIColor *)solidColor
+{
+    if(![self.solidColor isEqual:solidColor]) {
+        _solidColor = solidColor;
+        [self setNeedsDisplay];
+    }
 }
 
 /**************************************************************************************************/
