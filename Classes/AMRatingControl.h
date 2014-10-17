@@ -21,6 +21,7 @@ typedef void (^EditingDidEndBlock)(NSUInteger rating);
 @property (nonatomic, readwrite) NSUInteger starFontSize;
 @property (nonatomic, readwrite) NSUInteger starWidthAndHeight;
 @property (nonatomic, readwrite) NSUInteger starSpacing;
+@property (nonatomic, assign) BOOL editingDisabled;
 @property (nonatomic, copy) EditingChangedBlock editingChangedBlock;
 @property (nonatomic, copy) EditingDidEndBlock editingDidEndBlock;
 

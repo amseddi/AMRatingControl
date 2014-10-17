@@ -273,6 +273,11 @@ static const NSString *kDefaultSolidChar = @"★";
 
 - (void)handleTouch:(UITouch *)touch
 {
+    if (self.editingDisabled)
+    {
+        return;
+    }
+    
     CGFloat width = self.frame.size.width;
 	CGRect section = CGRectMake(0, 0, _starWidthAndHeight, self.frame.size.height);
 	
