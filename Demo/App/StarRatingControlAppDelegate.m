@@ -1,8 +1,8 @@
-#import "AMRatingControlAppDelegate.h"
-#import "AMRatingControlViewController.h"
+#import "StarRatingControlAppDelegate.h"
+#import "StarRatingControlViewController.h"
 
 
-@implementation AMRatingControlAppDelegate
+@implementation StarRatingControlAppDelegate
 
 
 /**************************************************************************************************/
@@ -17,7 +17,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    [window addSubview:viewController.view];
+    [self.window setRootViewController:viewController];
     [window makeKeyAndVisible];
 }
 

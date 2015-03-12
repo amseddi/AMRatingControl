@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface AMRatingControlViewController : UIViewController
+@interface StarRatingControlViewController : UIViewController
 {
 	IBOutlet UILabel *label;
     IBOutlet UILabel *endLabel;
