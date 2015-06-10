@@ -73,6 +73,12 @@ static const NSString *kDefaultSolidChar = @"★";
     [self setNeedsDisplay];
 }
 
+-(void) setEmptyColor:(UIColor *)emptyColor solidColor:(UIColor *)solidColor
+{
+    _emptyColor = emptyColor;
+    _solidColor = solidColor;
+}
+
 /**************************************************************************************************/
 #pragma mark - Birth & Death
 

@@ -57,6 +57,11 @@ typedef void (^EditingDidEndBlock)(NSUInteger rating);
             solidImage:(UIImage *)solidImageOrNil
           andMaxRating:(NSInteger)maxRating;
 
-
+/**
+ Sets empty color and solid color of the stars.
+ This can be helpful to customize the colors if the control is initiated from nib using initWithCoder
+ * @param emptyColor & solidColor
+ **/
+-(void) setEmptyColor:(UIColor *)emptyColor solidColor:(UIColor *)solidColor;
 
 @end
