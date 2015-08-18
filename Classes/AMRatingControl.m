@@ -193,6 +193,14 @@ static const NSString *kDefaultSolidChar = @"★";
     }
 }
 
+-(void)cancelTrackingWithEvent:(UIEvent *)event
+{
+    if (self.editingCanceledBlock)
+    {
+        self.editingCanceledBlock(_rating);
+    }
+}
+
 
 /**************************************************************************************************/
 #pragma mark - Private Methods
